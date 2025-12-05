@@ -1,7 +1,7 @@
 // utils/blockchain.js
 /**
  * Helper to read all campaigns from the contract (v6 ethers style)
- * Expects `contract` to have: campaignCount() and campaigns(id)
+ * Uses getCampaign() function because struct has nested mapping
  */
 export const fetchAllCampaigns = async (contract) => {
   if (!contract) throw new Error("Contract not provided");
@@ -9,18 +9,20 @@ export const fetchAllCampaigns = async (contract) => {
   const count = Number(countBn);
   const out = [];
 
-  // campaigns are usually indexed starting from 0 or 1 depending on contract; adjust if needed
-  for (let i = 0; i < count; i++) {
+  // Campaigns are 1-indexed (campaignCount increments before storing)
+  for (let i = 1; i <= count; i++) {
     try {
-      const data = await contract.campaigns(BigInt(i));
+      // Use getCampaign() function instead of campaigns() mapping
+      const result = await contract.getCampaign(BigInt(i));
+      const [creator, title, description, goal, deadline, amountCollected] = result;
       out.push({
         id: i,
-        creator: data.creator,
-        title: data.title,
-        description: data.description,
-        goal: (data.goal ? (typeof data.goal === "bigint" ? data.goal.toString() : data.goal._hex) : "0"),
-        amountCollected: (data.amountCollected ? data.amountCollected.toString() : "0"),
-        deadline: data.deadline ? data.deadline.toString() : null,
+        creator: creator,
+        title: title,
+        description: description,
+        goal: goal.toString(),
+        amountCollected: amountCollected.toString(),
+        deadline: deadline ? deadline.toString() : null,
       });
     } catch (err) {
       // skip malformed

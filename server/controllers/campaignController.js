@@ -72,15 +72,17 @@ export const getCampaignFromBlockchain = async (req, res) => {
     const total = Number(await contract.campaignCount());
     if (isNaN(id) || id < 0 || id >= total) return res.status(404).json({ error: "Not found" });
 
-    const data = await contract.campaigns(BigInt(id));
+    // Use getCampaign() function instead of campaigns() mapping
+    const result = await contract.getCampaign(BigInt(id));
+    const [creator, title, description, goal, deadline, amountCollected] = result;
     const formatted = {
       id,
-      creator: data.creator,
-      title: data.title,
-      description: data.description,
-      goalEth: ethers.formatEther(data.goal),
-      amountCollectedEth: ethers.formatEther(data.amountCollected),
-      deadline: data.deadline.toString(),
+      creator: creator,
+      title: title,
+      description: description,
+      goalEth: ethers.formatEther(goal),
+      amountCollectedEth: ethers.formatEther(amountCollected),
+      deadline: deadline.toString(),
     };
     res.json(formatted);
   } catch (err) {

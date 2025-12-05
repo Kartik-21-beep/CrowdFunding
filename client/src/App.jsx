@@ -9,13 +9,15 @@ import MyCampaigns from "./pages/MyCampaigns";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import { BlockchainProvider } from "./context/BlockchainContext";
+import { WalletProvider } from "./context/WalletContext";
 
 function App() {
   return (
-    <BlockchainProvider>
-      <Router>
-        <Navbar />
-        <Routes>
+    <WalletProvider>
+      <BlockchainProvider>
+        <Router>
+          <Navbar />
+          <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route
             path="/home"
@@ -68,6 +70,7 @@ function App() {
         </Routes>
       </Router>
     </BlockchainProvider>
+    </WalletProvider>
   );
 }
 

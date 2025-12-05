@@ -1,10 +1,12 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useWallet } from "../context/WalletContext";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { account, connectWallet, disconnectWallet, isMetaMaskInstalled } = useWallet();
 
   useEffect(() => {
     const updateUser = () => {
@@ -53,7 +55,48 @@ const Navbar = () => {
           </>
         )}
       </div>
-      <div>
+      <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+        {/* Wallet Connection */}
+        {isMetaMaskInstalled && (
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {account ? (
+              <>
+                <span style={{ fontSize: "12px", color: "#4CAF50" }}>
+                  🦊 {account.slice(0, 6)}...{account.slice(-4)}
+                </span>
+                <button
+                  onClick={disconnectWallet}
+                  style={{
+                    padding: "5px 10px",
+                    cursor: "pointer",
+                    background: "transparent",
+                    border: "1px solid #fff",
+                    color: "#fff",
+                    fontSize: "12px"
+                  }}
+                >
+                  Disconnect
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={connectWallet}
+                style={{
+                  padding: "5px 10px",
+                  cursor: "pointer",
+                  background: "#f57c00",
+                  border: "none",
+                  color: "#fff",
+                  fontSize: "12px"
+                }}
+              >
+                Connect Wallet
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* User Authentication */}
         {user ? (
           <>
             <span style={{ marginRight: "20px" }}>Hello, {user.name}</span>
