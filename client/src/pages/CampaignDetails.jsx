@@ -286,11 +286,6 @@ const CampaignDetails = () => {
             <p style={{ margin: 0, color: chainId === "0x7A69" ? "#155724" : "#856404" }}>
               Connected: {account.slice(0, 6)}...{account.slice(-4)}
             </p>
-            {chainId !== "0x7A69" && (
-              <p style={{ margin: "5px 0 0 0", fontSize: "12px", color: "#856404" }}>
-                ⚠️ Switch to Hardhat Local network (Chain ID: 31337) to use funds. Click "Connect Wallet" to auto-switch.
-              </p>
-            )}
             {chainId === "0x7A69" && (
               <p style={{ margin: "5px 0 0 0", fontSize: "12px", color: "#155724" }}>
                 ✅ Connected to Hardhat Local network - Ready to donate!
@@ -342,21 +337,11 @@ const CampaignDetails = () => {
             </button>
           )}
           
-          {donating && (
-            <p style={{ fontSize: "12px", color: "#666", marginTop: "10px", textAlign: "center" }}>
-              ⚠️ Please confirm the transaction in the MetaMask popup window (required for security)
-            </p>
-          )}
           
           {donating && (
             <div style={{ marginTop: "15px", padding: "12px", background: "#e3f2fd", borderRadius: "4px", border: "1px solid #90caf9" }}>
               <p style={{ margin: 0, fontSize: "14px", color: "#1976d2", fontWeight: "500" }}>
                 ⏳ Transaction in progress...
-              </p>
-              <p style={{ margin: "8px 0 0 0", fontSize: "13px", color: "#666" }}>
-                {chainId === "0x7A69" 
-                  ? "A MetaMask popup will appear for you to confirm the transaction. This is required for security." 
-                  : "Please switch to Hardhat network and confirm transaction in MetaMask popup..."}
               </p>
             </div>
           )}

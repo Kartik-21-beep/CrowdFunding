@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import api from "../utils/api";
 import CampaignCard from "../components/CampaignCard";
 
 const MyCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
 
   const loadMyCampaigns = async () => {
     try {
@@ -23,16 +22,6 @@ const MyCampaigns = () => {
   useEffect(() => {
     loadMyCampaigns();
   }, []);
-
-  // Refresh when navigating to this page to show updated progress from blockchain
-  useEffect(() => {
-    if (location.pathname === "/my-campaigns") {
-      const timer = setTimeout(() => {
-        loadMyCampaigns();
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [location.key, location.pathname]);
 
   // Listen for donation completion events
   useEffect(() => {

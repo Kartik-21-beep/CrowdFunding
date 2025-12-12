@@ -1,0 +1,118 @@
+# Crowdfunding Platform - Deployment Requirements
+# ================================================
+
+# Node.js Version
+# ----------------
+# Required: Node.js >= 18.0.0
+# Recommended: Node.js >= 20.0.0
+# Check version: node --version
+
+# Server Dependencies (server/package.json)
+# ------------------------------------------
+bcryptjs>=3.0.3
+cors>=2.8.5
+dotenv>=17.2.3
+ethers>=6.16.0
+express>=5.2.1
+jsonwebtoken>=9.0.3
+mongoose>=9.0.0
+nodemailer>=7.0.11
+
+# Client Dependencies (client/package.json)
+# -------------------------------------------
+# Note: Client dependencies are installed via npm/yarn
+# Key dependencies:
+# - react>=19.2.0
+# - react-dom>=19.2.0
+# - react-router-dom>=7.10.0
+# - ethers>=6.13.0
+# - axios>=1.13.2
+# - vite>=7.2.4 (dev dependency)
+
+# Contracts Dependencies (contracts/package.json)
+# -------------------------------------------------
+# Dev dependencies:
+# - hardhat>=2.22.4
+# - @nomicfoundation/hardhat-toolbox>=6.1.0
+
+# System Requirements
+# -------------------
+# - MongoDB: MongoDB >= 6.0 (or MongoDB Atlas)
+# - Blockchain: Ethereum-compatible network (Hardhat local, Sepolia, Mainnet, etc.)
+# - Hardhat Node: For local development (optional)
+
+# Environment Variables Required
+# -------------------------------
+# Server (.env in server/ directory):
+# - MONGO_URI: MongoDB connection string
+# - JWT_SECRET: Secret key for JWT tokens
+# - PORT: Server port (default: 5000)
+# - RPC_URL: Ethereum RPC endpoint URL
+# - PRIVATE_KEY: Wallet private key for blockchain transactions
+# - CONTRACT_ADDRESS: Deployed CrowdFund contract address
+# - SMTP_HOST: SMTP server host (optional, for email)
+# - SMTP_PORT: SMTP server port (optional)
+# - SMTP_USER: SMTP username (optional)
+# - SMTP_PASS: SMTP password (optional)
+# - SMTP_SECURE: Use secure connection (true/false, optional)
+# - EMAIL_USER: Gmail username (optional, fallback)
+# - EMAIL_PASS: Gmail app password (optional, fallback)
+# - ENABLE_INSECURE_OTP: Enable OTP in response for dev (true/false, optional)
+
+# Client Environment Variables
+# ----------------------------
+# - VITE_API_URL: Backend API URL (default: http://localhost:5000)
+
+# Deployment Steps
+# ----------------
+# 1. Install Node.js (>= 18.0.0)
+# 2. Install MongoDB or use MongoDB Atlas
+# 3. Clone repository
+# 4. Install server dependencies: cd server && npm install
+# 5. Install client dependencies: cd client && npm install
+# 6. Install contract dependencies: cd contracts && npm install
+# 7. Configure environment variables in server/.env
+# 8. Deploy smart contract: cd contracts && npx hardhat run scripts/deploy.cjs --network <network>
+# 9. Update CONTRACT_ADDRESS in server/.env
+# 10. Start server: cd server && npm run dev
+# 11. Build client: cd client && npm run build
+# 12. Serve client build (using nginx, serve, or similar)
+
+# Production Build Commands
+# -------------------------
+# Server: cd server && npm install --production
+# Client: cd client && npm run build
+# Contracts: cd contracts && npm install
+
+# Ports
+# -----
+# Server: 5000 (default, configurable via PORT env var)
+# Client Dev: 5173 (Vite default)
+# Hardhat Node: 8545 (default)
+
+# Database
+# ---------
+# MongoDB connection required
+# Collections: users, campaigns
+
+# Blockchain
+# ----------
+# - Smart contract: CrowdFund.sol
+# - Network: Configurable (Hardhat local, Sepolia, Mainnet, etc.)
+# - Contract ABI: Required at server/abi/CrowdFund.json
+
+# Security Notes
+# --------------
+# - Never commit .env files
+# - Use strong JWT_SECRET in production
+# - Use secure SMTP credentials
+# - Keep PRIVATE_KEY secure (use environment variables)
+# - Enable HTTPS in production
+# - Use CORS properly configured for production domain
+
+# Optional Features
+# -----------------
+# - Email verification (requires SMTP/Gmail config)
+# - OTP generation (requires email config)
+# - Blockchain integration (requires RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS)
+
